@@ -449,7 +449,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 
 @media screen and (max-width: 1440px) {
   body {
-    zoom: 70%;
+    zoom: 68%;
   }
 }
 
@@ -605,3 +605,43 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 .hover-modal .hm-empty, .hover-modal .hm-loading { color: var(--muted); font-style: italic; padding: 4px; }
 
 
+
+/* ---- Students tab: search + pagination ---- */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    min-width: 260px;
+}
+.search-input:focus { outline: none; border-color: var(--primary); }
+
+.pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+.pager-info { color: var(--muted); font-size: 13px; }
+.pager-controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.page-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 11px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+}
+.page-btn:hover:not(:disabled):not(.active) { background: #f2f2ff; }
+.page-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    font-weight: 600;
+}
+.page-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.page-ellipsis { color: var(--muted); padding: 0 2px; }
