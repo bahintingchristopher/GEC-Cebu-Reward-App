@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  reward-app-main:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: reward-app:main
+    container_name: reward-app-main
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./attendance_csv:/app/attendance_csv
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_PORT=3306
+      - DB_USER=reward
+      - DB_PASSWORD=${REWARD_DB_PASSWORD:?REWARD_DB_PASSWORD must be set}
+      - DB_NAME=reward_app
+      - PORT=5000
+      - PORT_TLS=5443
+      - SERVER_IP=192.168.107.135
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET must be set}
+      - NODE_ENV=production

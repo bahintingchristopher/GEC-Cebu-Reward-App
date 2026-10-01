@@ -1,0 +1,13 @@
+﻿{
+  "appId": "com.gec.rewardadmin",
+  "appName": "GEC Admin",
+  "webDir": "www",
+  "server": {
+    "url": "https://192.168.107.135:5443",
+    "cleartext": true,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

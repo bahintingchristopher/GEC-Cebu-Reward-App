@@ -1,0 +1,18 @@
+﻿services:
+  reward-app:
+    build: .
+    container_name: reward-app
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./attendance_csv:/app/attendance_csv
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=reward
+      - DB_PASSWORD=${REWARD_DB_PASSWORD:?REWARD_DB_PASSWORD must be set}
+      - DB_NAME=reward_app
+      - NODE_ENV=production

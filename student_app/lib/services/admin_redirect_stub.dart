@@ -1,0 +1,3 @@
+﻿bool redirectToAdminDashboard() {
+  return false;
+}

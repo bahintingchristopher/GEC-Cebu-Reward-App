@@ -1,0 +1,60 @@
+﻿# Reward App - root ignore rules
+# Sensitive local data that must never be committed:
+#   - SQLite/MySQL database files contain student PII, bcrypt hashes & QR tokens
+#   - SQL dumps/scripts and tar archives may embed the same data or credentials
+
+# Database files
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# SQL exports / dumps / init scripts
+*.sql
+
+# Packaged archives (may embed the DB or secrets)
+*.tar
+
+# Backup directories
+backups/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Android/Gradle build files
+**/build/
+**/.gradle/
+
+# Flutter generated files
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Certificates / private keys
+backend/certs/
+
+# APK files
+*.apk
+
+# Backup files
+*.bak
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/

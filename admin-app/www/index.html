@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GEC Admin</title>
+    <style>
+        body { margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #FDEEE9 0%, #F8F9FD 100%); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .loading { text-align: center; color: #888; }
+        .loading .spinner { width: 36px; height: 36px; border: 4px solid #e0e0e0; border-top-color: #4D49FF; border-radius: 50%; margin: 0 auto 16px; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="spinner"></div>
+        <div>Loading GEC Admin...</div>
+    </div>
+    <script>
+        window.location.replace('https://192.168.107.135:5443/adminlogin.html');
+    </script>
+</body>
+</html>

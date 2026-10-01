@@ -1,0 +1,15 @@
+﻿node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+.env.*
+reward_app.db
+reward_app.db-wal
+reward_app.db-shm
+reward-app.tar
+data_migrate
+*.tar
+cbahinting1*
+Dockerfile
+docker-compose.yml

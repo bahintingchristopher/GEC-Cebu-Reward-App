@@ -1,0 +1,14 @@
+﻿node_modules/
+.env
+*.db
+*.db-wal
+*.db-shm
+*.tar
+attendance_csv/
+reward_app_dump.sql
+data_migrate/reward_app.db
+cbahinting1@*
+*.pem
+*.key
+id_rsa*
+id_ed25519*

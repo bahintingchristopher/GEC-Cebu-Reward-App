@@ -1,0 +1,71 @@
+// ---------------------------------------------------------------------------
+// PWA shell styling for the student app (GEC Cebu Rewards Plus).
+//
+// Flutter paints the entire UI onto a canvas, so this file only styles the
+// HTML shell around it. Its job is to make the PWA feel like a native app
+// when opened in a laptop browser or installed to a phone home screen.
+//
+// Compile after editing:
+//   npx sass student_app/web/pwa-mobile.scss student_app/web/pwa-mobile.css
+//
+// NOTE ON THE LAPTOP WIDTH
+// The handset-width column on wide screens is applied by the Flutter layout
+// (MaterialApp.builder in lib/main.dart), not by this file. CSS cannot resize
+// the Flutter canvas: the engine reads window.innerWidth and paints a
+// fixed-size canvas, so a CSS max-width here would clip the app rather than
+// reflow it. This file handles the shell only.
+// ---------------------------------------------------------------------------
+
+// Neutral colour shown either side of the app column on a wide display.
+$backdrop: #e8e6e6;
+
+// Matches wideScreenBreakpoint in lib/main.dart, kept here for documentation.
+$wide-screen: 800px;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh; // fallback for browsers without dvh
+  min-height: 100dvh; // tracks the visual viewport as the URL bar hides
+  background-color: $backdrop;
+
+  // Pull-to-refresh and rubber-band scrolling would reload or bounce the app
+  // mid-scroll, which feels wrong for something presented as an installed app.
+  overscroll-behavior: none;
+
+  // Stop iOS/Android from inflating text after an orientation change.
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  // No long-press callout, no blue flash on tap, and manipulation removes the
+  // legacy 300ms tap delay that makes buttons feel sluggish.
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+// The app draws its own scrollbars, so hide the shell's.
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+// Flutter renders text entry through a hidden DOM element. The shell must not
+// disable selection on that, or editing can behave oddly on some browsers.
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+// On a wide display the app sits in a centred column; give the surrounding
+// area a deliberate backdrop rather than the browser default white.
+@media (min-width: $wide-screen) {
+  html,
+  body {
+    background-color: $backdrop;
+  }
+}

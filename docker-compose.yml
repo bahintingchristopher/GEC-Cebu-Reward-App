@@ -1,0 +1,51 @@
+﻿version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: reward-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${REWARD_DB_ROOT_PASSWORD:?REWARD_DB_ROOT_PASSWORD must be set}
+      - MYSQL_DATABASE=reward_app
+      - MYSQL_USER=reward
+      - MYSQL_PASSWORD=${REWARD_DB_PASSWORD:?REWARD_DB_PASSWORD must be set}
+      - TZ=Asia/Manila
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${REWARD_DB_ROOT_PASSWORD:?REWARD_DB_ROOT_PASSWORD must be set}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  reward-app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: reward-app:mysql
+    container_name: reward-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./attendance_csv:/app/attendance_csv
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=reward
+      - DB_PASSWORD=${REWARD_DB_PASSWORD:?REWARD_DB_PASSWORD must be set}
+      - DB_NAME=reward_app
+      - PORT=5000
+      - SERVER_IP=${SERVER_IP:-192.168.107.135}
+      - NODE_ENV=production
+
+volumes:
+  mysql_data:

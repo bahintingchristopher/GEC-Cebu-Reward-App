@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEC Cebu Rewards Plus - Admin Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <h1>GEC Cebu Rewards Plus</h1>
+            <p class="login-subtitle">Admin Dashboard</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <div id="loginError" class="login-error" style="display:none;"></div>
+                <button type="submit" class="btn-primary btn-block">Login</button>
+            </form>
+            <p style="text-align:center;margin-top:20px;font-size:13px;color:#888;">
+                <a href="/admin.apk" style="color:#4D49FF;text-decoration:none;font-weight:600;">Install to Tablet / Android</a>
+            </p>
+        </div>
+    </div>
+
+  <script src="/js/auth.js"></script>
+
+    <footer style="position:fixed;left:0;right:0;bottom:0;text-align:center;padding:12px 20px;font-size:13px;color:#888;background:#fff;border-top:1px solid #eee;z-index:10;">
+        <p>&copy; 2026 GEC Cebu Rewards Plus. Made for BYU-GEC. Powered by ALMA LLC.</p>
+    </footer>
+</body>
+</html>

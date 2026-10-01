@@ -1,0 +1,537 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEC Cebu Rewards Plus - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-brand">
+            <h1>GEC Cebu Rewards Plus</h1>
+        </div>
+        <div class="topbar-disclaimer">
+            <span class="disclaimer-title">DISCLAIMER</span>
+            <span class="disclaimer-text">For attendance tracking only; data remains exclusively within the GEC-CEBU Center.</span>
+        </div>
+        <div class="topbar-actions">
+            <span class="admin-name" id="adminName"></span>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <nav class="sidebar">
+        <ul>
+            <li><button class="nav-btn active" data-tab="overview">Overview</button></li>
+            <li><button class="nav-btn" data-tab="tasks">Tasks</button></li>
+            <li><button class="nav-btn" data-tab="rewards">Rewards</button></li>
+            <li><button class="nav-btn" data-tab="scanqr">Scan Barcode</button></li>
+            <li><button class="nav-btn" data-tab="redemptions">Redemptions</button></li>
+            <li><button class="nav-btn" data-tab="claims">Claims <span class="nav-badge" id="claimsBadge" style="display:none;"></span></button></li>
+            <li><button class="nav-btn" data-tab="students">Students</button></li>
+              <li><button class="nav-btn" data-tab="students">Analytical</button></li>
+            <li><button class="nav-btn" data-tab="attendance">Attendance (CSV)</button></li>
+        </ul>
+            <div class="sidebar-attendees">
+                <p class="sidebar-attendees-title">Top 20 Attendees </p>
+                <ol class="sidebar-attendees-list" id="topAttendeesList"></ol>
+            </div>
+    </nav>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+        <!-- Overview Tab -->
+        <section id="overview" class="tab-content active">
+            <div class="section-header">
+                <h2>Overview</h2>
+                <div class="overview-filters">
+                    <label for="monthSelect">Period</label>
+                    <select id="monthSelect" aria-label="Month"></select>
+                    <select id="yearSelect" aria-label="Year"></select>
+                    <button type="button" id="resetFilterBtn" class="btn-reset">Reset</button>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statStudents">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statPending">0</div>
+                    <div class="stat-label">Checked In Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statPoints">0</div>
+                    <div class="stat-label">Points Distributed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statRedemptions">0</div>
+                    <div class="stat-label">Total Redemptions</div>
+                </div>
+            </div>
+            <div class="overview-daily-row">
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3>Daily Attendance</h3>
+                    <span class="chart-period" id="dailyChartPeriod"></span>
+                </div>
+                <div class="chart-bars-wrap">
+                    <div class="bar-chart" id="dailyBarChart"></div>
+                    <p class="empty-state chart-empty" id="dailyChartEmpty" style="display:none;">No attendance logged this month yet.</p>
+                </div>
+                <div class="chart-legend" id="dailyChartLegend"></div>
+            </div>
+            <div class="chart-card performance-card">
+                <div class="chart-card-header">
+                    <h3>Monthly Performance</h3>
+                    <span class="chart-period" id="monthlyPerfPeriod"></span>
+                </div>
+                <div class="perf-summary">
+                    <div class="perf-item">
+                        <div class="perf-text">
+                            <span class="perf-label">New App User</span>
+                            <em class="perf-desc">Students who registered this month</em>
+                        </div>
+                        <span class="perf-value" id="perfNewUsers">0</span>
+                    </div>
+                    <div class="perf-item">
+                        <div class="perf-text">
+                            <span class="perf-label">Monthly Attendance</span>
+                            <em class="perf-desc">Users who attended at least once this month</em>
+                        </div>
+                        <span class="perf-value" id="perfMonthlyAttendance">0</span>
+                    </div>
+                    <div class="perf-item">
+                        <div class="perf-text">
+                            <span class="perf-label">Active Users</span>
+                            <em class="perf-desc">Completed at least 2 task activities this month</em>
+                        </div>
+                        <span class="perf-value" id="perfActiveUsers">0</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="charts-tiles">
+                <div class="chart-tile">
+                    <div class="chart-tile-header">
+                        <h3>Attendance by Activity</h3>
+                        <span class="chart-period" id="weeklyPiePeriod"></span>
+                    </div>
+                    <div class="pie-wrap">
+                        <div class="pie-chart" id="weeklyPieChart"></div>
+                        <p class="empty-state chart-empty" id="weeklyPieEmpty" style="display:none;">No attendance this month.</p>
+                    </div>
+                    <div class="chart-legend" id="weeklyPieLegend"></div>
+                </div>
+                <div class="chart-tile" id="tileTask2">
+                    <div class="chart-tile-header">
+                        <h3>Institute</h3>
+                        <span class="chart-period" id="institutePeriod"></span>
+                    </div>
+                    <div class="tile-bars-wrap">
+                        <div class="bar-chart tile-bar-chart" id="instituteBarChart"></div>
+                        <p class="empty-state chart-empty" id="instituteBarEmpty" style="display:none;">No attendance yet.</p>
+                    </div>
+                    <div class="chart-legend" id="instituteLegend"></div>
+                </div>
+                <div class="chart-tile" id="tileTask3">
+                    <div class="chart-tile-header">
+                        <h3>Friday Night</h3>
+                        <span class="chart-period" id="fridayPeriod"></span>
+                    </div>
+                    <div class="tile-bars-wrap">
+                        <div class="bar-chart tile-bar-chart" id="fridayBarChart"></div>
+                        <p class="empty-state chart-empty" id="fridayBarEmpty" style="display:none;">No attendance yet.</p>
+                    </div>
+                    <div class="chart-legend" id="fridayLegend"></div>
+                </div>
+                <div class="chart-tile" id="tileTask4">
+                    <div class="chart-tile-header">
+                        <h3>Weekly Devotional</h3>
+                        <span class="chart-period" id="devotionalPeriod"></span>
+                    </div>
+                    <div class="tile-bars-wrap">
+                        <div class="bar-chart tile-bar-chart" id="devotionalBarChart"></div>
+                        <p class="empty-state chart-empty" id="devotionalBarEmpty" style="display:none;">No attendance yet.</p>
+                    </div>
+                    <div class="chart-legend" id="devotionalLegend"></div>
+                </div>
+                <div class="chart-tile" id="tileTask5">
+                    <div class="chart-tile-header">
+                        <h3>SKEDDA</h3>
+                        <span class="chart-period" id="skeddaPeriod"></span>
+                    </div>
+                    <div class="tile-bars-wrap">
+                        <div class="bar-chart tile-bar-chart" id="skeddaBarChart"></div>
+                        <p class="empty-state chart-empty" id="skeddaBarEmpty" style="display:none;">No attendance yet.</p>
+                    </div>
+                    <div class="chart-legend" id="skeddaLegend"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tasks Tab -->
+        <section id="tasks" class="tab-content">
+            <div class="section-header">
+                <h2>Tasks (Events &amp; Activities)</h2>
+                <button class="btn-primary" data-action="open-task">+ Add Task</button>
+            </div>
+            <div class="table-card">
+                <table id="tasksTable">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Points</th>
+                        <th>Window</th>
+                        <th>Status</th>
+                        <th>Event QR</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Rewards Tab -->
+        <section id="rewards" class="tab-content">
+            <div class="section-header">
+                <h2>Rewards</h2>
+                <button class="btn-primary" data-action="open-reward">+ Add Reward</button>
+            </div>
+            <table class="data-table" id="rewardsTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Points Required</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Scan QR Tab -->
+        <section id="scanqr" class="tab-content">
+            <div class="section-header">
+                <h2>Scan Student Barcode | Auto Attendance</h2>
+            </div>
+            <div class="scan-layout">
+                <div class="scan-card">
+                    <div class="form-group">
+                        <label>Select Task (Event)</label>
+                        <select id="scanTaskSelect"></select>
+                    </div>
+                    <h3>Camera Scanner</h3>
+                    <div id="qr-reader"></div>
+                    <div class="scan-buttons">
+                        <button class="btn-primary" id="startScanBtn" data-action="start-scanner">Start Camera</button>
+                        <button class="btn-danger" id="stopScanBtn" style="display:none" data-action="stop-scanner">Stop Camera</button>
+                    </div>
+                    <p class="scan-tip">Browsers only allow camera on secure origins &mdash; use <strong>http://localhost:5000</strong> on this PC. The scanner reads both barcodes and QR. From other devices, use the USB scanner or the manual field below.</p>
+                    <h3>USB Barcode Reader</h3>
+                    <div class="scan-buttons">
+                        <button class="btn-primary" id="motorolaBtn" data-action="toggle-motorola-scanner">Start USB Scanner</button>
+                        <button class="btn-danger" id="motorolaStopBtn" style="display:none" data-action="toggle-motorola-scanner">Stop USB Scanner</button>
+                    </div>
+                    <input type="text" id="motorolaCapture" class="scanner-capture" autocomplete="off" tabindex="-1">
+                    <p class="scan-tip" id="motorolaStatus" style="display:none">USB scanner is <strong style="color:var(--green)">ACTIVE</strong>. Just scan the student barcode - no need to type.</p>
+                    <h3>Manual Entry</h3>
+                    <div class="manual-entry">
+                        <input type="text" id="manualToken" placeholder="RA:CODE">
+                        <button class="btn-success" data-action="manual-scan">Submit</button>
+                    </div>
+                    <div class="scan-result" id="scanResult" style="margin-top:16px"></div>
+                </div>
+                <div class="scan-card">
+                    <h3 id="attLogTitle">Attendance for selected task</h3>
+                    <div class="scan-buttons">
+                        <button class="btn-success" data-action="download-attendance-csv-all">Download CSV</button>
+                    </div>
+                    <div class="att-count" id="attendanceCount"></div>
+                    <table class="data-table" id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>User ID</th>
+                                <th>Points</th>
+                                <th>Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Redemptions Tab -->
+        <section id="redemptions" class="tab-content">
+            <div class="section-header">
+                <h2>Redemptions</h2>
+                <p class="section-sub">Rewards are auto-claimed on redemption (no approval needed). Cancel to refund points &amp; restock.</p>
+            </div>
+            <table class="data-table" id="redemptionsTable">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>User ID</th>
+                        <th>Reward</th>
+                        <th>Points Spent</th>
+                        <th>Redeemed</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Claims Tab -->
+        <section id="claims" class="tab-content">
+            <div class="section-header">
+                <h2>Students Who Claimed Rewards</h2>
+                <p class="section-sub">These students have auto-redeemed rewards using their accumulated points (no approval needed).</p>
+            </div>
+            <table class="data-table" id="claimsTable">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>User ID</th>
+                        <th>Reward</th>                        <th>Points</th>                        <th>Claimed At</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- Students Tab -->
+        <section id="students" class="tab-content">
+            <div class="section-header">
+                <h2>Students</h2>
+            </div>
+            <table class="data-table" id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>isStudent?</th>
+                        <th>Total Points</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <!-- Attendance CSV Folder -->
+        <section id="attendance" class="tab-content">
+            <div class="section-header">
+                <h2>Attendance (CSV Files)</h2>
+            </div>
+            <p class="section-sub">Each event is a folder containing a separate CSV file for every day it runs. Scans are saved automatically &mdash; just refresh an open file to see new rows.</p>
+
+            <!-- Events view -->
+            <div id="attendanceEventsView">
+                <table class="data-table" id="attendanceFilesTable">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Status</th>
+                            <th>Records</th>
+                            <th>Days</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Daily view (shown when an event folder is opened) -->
+            <div id="attendanceDailyView" style="display:none;">
+                <div class="attendance-crumb">
+                    <button class="btn-back" data-action="back-to-events">&larr; All Events</button>
+                    <span class="attendance-crumb-path">Attendance (CSV) / <strong id="attendanceEventTitle"></strong></span>
+                </div>
+                <table class="data-table" id="attendanceDatesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Records</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="attendance-folder-tip">
+                CSV files live in <code>attendance_csv</code> &mdash; one folder per event, one file per day. Opening shows the latest snapshot; downloads always include the newest scans.
+            </div>
+        </section>
+    </main>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-action="close-task">&times;</span>
+            <h3 id="taskModalTitle">Add Task</h3>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="taskDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Points Reward</label>
+                    <input type="number" id="taskPoints" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Category (e.g. DEVOTIONAL, FLAG, EARLY_ARRIVAL)</label>
+                    <input type="text" id="taskCategory" placeholder="QR">
+                </div>
+                <div class="form-group">
+                    <label>Check-in window (leave empty for open events)</label>
+                    <div style="display:flex;gap:10px;">
+                        <input type="time" id="taskStartTime">
+                        <input type="time" id="taskEndTime">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Self check-in (student scans event QR)</label>
+                    <select id="taskSelfCheckin">
+                        <option value="1">Allowed</option>
+                        <option value="0">Admin scan only</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Active</label>
+                    <select id="taskActive">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Save Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reward Modal -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-action="close-reward">&times;</span>
+            <h3 id="rewardModalTitle">Add Reward</h3>
+            <form id="rewardForm">
+                <input type="hidden" id="rewardId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="rewardTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="rewardDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Points Required</label>
+                    <input type="number" id="rewardPoints" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="rewardStock" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Active</label>
+                    <select id="rewardActive">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Save Reward</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event QR Modal -->
+    <div id="eventQrModal" class="modal">
+        <div class="modal-content" style="max-width:420px;text-align:center;">
+            <span class="modal-close" data-action="close-event-qr">&times;</span>
+            <h3 id="eventQrTitle">Event QR</h3>
+            <p class="section-sub" id="eventQrHint">Display this QR on screen at the venue. Students scan it in the app to check in and earn points (once per day).</p>
+            <div id="eventQrCanvas" style="background:white;padding:20px;border-radius:12px;margin:16px 0;display:inline-block;"></div>
+            <div>
+                <button class="btn-primary" data-action="print-event-qr">Print</button>
+                <button class="btn-edit" data-action="close-event-qr">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Pie Modal -->
+    <div id="weeklyPieModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-action="close-weekly-pie">&times;</span>
+            <h3>Attendance by Activity</h3>
+            <p class="section-sub" id="weeklyPieModalPeriod"></p>
+            <div class="pie-chart modal-pie" id="weeklyPieModalChart"></div>
+            <div class="chart-legend" id="weeklyPieModalLegend"></div>
+        </div>
+    </div>
+
+<div id="tileModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="tileModalClose">&times;</span>
+            <h3 id="tileModalTitle"></h3>
+            <p class="section-sub" id="tileModalPeriod"></p>
+            <div class="bar-chart tile-modal-chart" id="tileModalChart"></div>
+            <div class="chart-legend" id="tileModalLegend"></div>
+        </div>
+    </div>
+
+    <!-- Student Detail Modal -->
+    <div id="studentDetailModal" class="modal">
+        <div class="modal-content" style="max-width:800px;max-height:85vh;overflow-y:auto;">
+            <span class="modal-close" data-action="close-student-detail">&times;</span>
+            <h3 id="studentDetailTitle">Student</h3>
+            <div id="studentDetailBody"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/html5-qrcode.min.js"></script>
+    <script src="js/qrcodegen.js"></script>
+    <script src="js/dashboard-overview.js"></script>
+    <script src="js/dashboard-tile-modals.js"></script>
+    <script src="js/dashboard-tasks.js"></script>
+    <script src="js/dashboard-rewards.js"></script>
+    <script src="js/dashboard-scan.js"></script>
+    <script src="js/dashboard-redemptions.js"></script>
+    <script src="js/dashboard-students.js"></script>
+    <script src="js/dashboard-attendance.js"></script>
+    <script src="js/dashboard-sidebar.js"></script>
+    <script src="js/dashboard-filter.js"></script>
+    <script src="js/student-detail.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/dashboard-performance.js"></script>
+    <footer class="footer">
+        <p>&copy; 2026 GEC Cebu Rewards Plus. Made for BYU-GEC. Powered by ALMA LLC.</p>
+    </footer>
+</body>
+</html>
+
+
+
+
+
