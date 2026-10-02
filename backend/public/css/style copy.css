@@ -10,10 +10,11 @@
 --green: #28a745;
 --red: #dc3545;
 --shadow: 0 2px 8px rgba(0,0,0,0.08);
---ui-k: 1;
 }
 
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); zoom: 90%; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); }
+
+
 
 /* ---- Login ---- */
 .login-page {
@@ -51,24 +52,30 @@ border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transit
 
 /* ---- Layout ---- */
 .topbar {
-position: sticky; top: 0; z-index: 300; height: 60px; background: white; border-bottom: 1px solid var(--border);
+position: sticky; top: 0; z-index: 100; height: 60px; background: white; border-bottom: 1px solid var(--border);
 display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
 }
+/* .topbar-brand { font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 10px; color:#f3c50f; background:#458ae6; padding: 2px 12px; border-radius: 8px; } */
 .topbar-brand {
 display: inline-flex;
 align-items: center;
 gap: 11px;
+
 font-family: Inter, "Segoe UI", sans-serif;
 font-size: 18px;
 font-weight: 800;
 letter-spacing: -0.6px;
+
 color: #173F67;
 background: transparent;
+
 padding: 7px 0;
 border: none;
 border-radius: 0;
+
 white-space: nowrap;
 }
+
 
 .topbar-actions { display: flex; align-items: center; gap: 16px; }
 .admin-name { color: var(--muted); font-size: 14px; }
@@ -134,7 +141,7 @@ display: flex;
 flex-direction: column;
 }
 .footer { position: fixed; left: 0; right: 0; bottom: 0; margin-left: 220px; z-index: 10; background: #fff; border-top: 1px solid var(--border); padding: 12px 28px 14px; text-align: center; color: var(--muted); font-size: 13px; }
-.tab-content { display: none; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tab-content { display: none; }
 .tab-content.active {
 display: flex;
 flex-direction: column;
@@ -172,18 +179,23 @@ box-shadow: var(--shadow); border-collapse: collapse;
 .status-approved { background: #e6f7e6; color: var(--green); }
 .status-rejected { background: #ffebee; color: var(--red); }
 
+/* 1. Prevent the Actions column cells from wrapping their contents */
 #tasksTable td:last-child, 
 #tasksTable th:last-child {
 white-space: nowrap;
-width: 1%;
+width: 1%; /* Forces the column to only take up as much space as it needs */
 }
 
+/* 2. Style the action buttons so they stay clean and side-by-side */
 #tasksTable td:last-child button {
 padding: 5px 10px;
 font-size: 12px;
 margin-right: 4px;
 }
 
+
+
+/* 1. Make the container card span 100% width and handle inner scrolling on small screens */
 .table-card {
 background: white;
 border-radius: 16px;
@@ -195,12 +207,14 @@ overflow-x: auto;
 margin-bottom: 20px;
 }
 
+/* 2. Force the table itself to fill the entire width of the card */
 #tasksTable {
 width: 100%;
 border-collapse: collapse;
 background: white;
 }
 
+/* 3. Ensure table headers and cells look clean when stretched */
 #tasksTable th {
 background: #f8f8ff;
 padding: 14px;
@@ -215,6 +229,7 @@ border-top: 1px solid #f0f0f0;
 font-size: 14px;
 }
 
+/* 1. Section Container & Header Alignment */
 #rewards {
 width: 100%;
 box-sizing: border-box;
@@ -227,6 +242,25 @@ align-items: center;
 margin-bottom: 20px;
 }
 
+/* 2. Rewards Table Container (Wrap your table in this card for the rounded shadow look) */
+.table-card {
+background: white;
+border-radius: 16px;
+box-shadow: var(--shadow);
+width: 100%;
+box-sizing: border-box;
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+margin-bottom: 20px;
+}
+
+/* 3. Data Table Styling */
+.data-table {
+width: 100%;
+border-collapse: collapse;
+background: white;
+}
+
 .data-table th {
 background: #f8f8ff;
 padding: 14px;
@@ -236,6 +270,7 @@ color: var(--muted);
 font-weight: 600;
 }
 
+/* 4. Actions Column: Keep buttons side-by-side and prevent wrapping */
 .data-table td:last-child, 
 .data-table th:last-child {
 white-space: nowrap;
@@ -247,6 +282,8 @@ padding: 5px 10px;
 font-size: 12px;
 margin-right: 4px;
 }
+
+
 
 /* ---- Modal ---- */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
@@ -276,12 +313,14 @@ position: relative; max-height: 90vh; overflow-y: auto;
 .scan-card .data-table td { font-size: 13px; }
 @media (max-width: 900px) { .scan-layout { grid-template-columns: 1fr; } }
 
-.section-sub { color: var(--muted); margin-top: 6px; }
+.section-sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
 
 .attendance-folder-tip { margin-top: 16px; padding: 14px 16px; background: #fff; border-radius: 12px; box-shadow: var(--shadow); color: var(--muted); font-size: 13px; line-height: 1.5; }
 .attendance-folder-tip code { background: #f2f3f7; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
 
-/* ---- Attendance CSV folder ---- */
+
+/* ---- Attendance CSV folder (events -> daily folders) ---- */
 .attendance-crumb { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .btn-back {
 background: #eef0ff; color: var(--primary); border: none; border-radius: 8px;
@@ -292,7 +331,7 @@ padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; transitio
 .attendance-crumb-path strong { color: var(--text); }
 .muted-small { color: var(--muted); font-size: 12px; }
 
-/* ---- USB barcode scanner ---- */
+/* ---- USB (Motorola) barcode scanner ---- */
 .scanner-capture {
 position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden;
 border: 0; padding: 0; margin: 0; z-index: -1;
@@ -304,7 +343,7 @@ border: 0; padding: 0; margin: 0; z-index: -1;
 .modal.show { z-index: 1000; }
 .modal.show .modal-content { position: relative; z-index: 1; }
 
-/* ---- Hamburger button ---- */
+/* ---- Hamburger button (hidden on desktop) ---- */
 .hamburger-btn {
 z-index: 210;
 display: none;
@@ -354,46 +393,29 @@ opacity: 1;
 }
 
 /* ============================================================
-RESPONSIVE — Mobile & Tablet
+RESPONSIVE â€” Mobile & Tablet
 ============================================================ */
-
-/* ---------- Netbook / narrow desktop (<= 1200px) ---------- */
-@media (max-width: 1200px) {
-.sidebar { width: 200px; }
-.main-content { margin-left: 200px; padding: 24px; }
-.footer { margin-left: 200px; }
-.topbar { padding: 0 16px; }
-.topbar-actions { gap: 12px; }
-.topbar-disclaimer { max-width: 46%; white-space: normal; }
-.disclaimer-text { line-height: 1.3; }
-.nav-btn { padding: 10px 18px; }
-.sidebar-attendees { margin: 28px 12px 16px; }
-.sidebar-attendees-title { font-size: 12px; }
-.sidebar-attendees-list { max-height: 30vh; }
-.stats-grid { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; width: 100%; box-sizing: border-box; }
-.data-table th, .data-table td { padding: 10px 12px; }
-#tasksTable th { padding: 10px 12px; }
-#tasksTable td { padding: 10px; }
-.modal-content { padding: 26px; max-width: 460px; }
-.search-input { min-width: 0; width: 100%; max-width: 320px; }
-}
 
 /* ---------- Tablet (<= 1024px) ---------- */
 @media (max-width: 1024px) {
 .sidebar { width: 180px; }
 .main-content { margin-left: 180px; padding: 20px; }
 .footer { margin-left: 180px; }
-.topbar { padding: 0 14px; }
-.topbar-disclaimer { max-width: 44%; }
-.nav-btn { padding: 10px 16px; }
-.stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; width: 100%; box-sizing: border-box; }
-.data-table th, .data-table td { padding: 10px 12px; }
+.nav-btn { padding: 10px 18px; font-size: 14px; }
+.section-header h2 { font-size: 19px; }
+.stat-value { font-size: 26px; }
+.stats-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; width: 100%; box-sizing: border-box; }
+.data-table th, .data-table td { padding: 10px 12px; font-size: 13px; }
 .modal-content { padding: 24px; max-width: 440px; }
 }
 
 /* ---------- Mobile landscape / small tablet (<= 768px) ---------- */
 @media (max-width: 768px) {
+
+/* --- Hamburger button visible --- */
 .hamburger-btn { display: flex; }
+
+/* --- Sidebar becomes slide-in drawer --- */
 .sidebar {
 width: 260px;
 position: fixed;
@@ -441,32 +463,48 @@ font-weight: 600;
 .nav-bottom { margin-top: auto; }
 .sidebar-attendees { margin: 46px 12px 20px; padding-top: 12px; border-top: 1px solid var(--border); }
 .sidebar-attendees-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); margin: 0 0 8px; padding: 0 8px; }
+.sidebar-attendees-list { list-style: decimal inside; margin: 0; padding: 0; font-size: 12px; color: var(--text); max-height: 40vh; overflow-y: auto; }
 .sidebar-attendees-list li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 8px; }
 .ta-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ta-meta { color: var(--muted); flex-shrink: 0; }
 
+/* --- Main content goes full width --- */
 .main-content {
 margin-left: 0;
-padding: 20px 16px 64px;
+padding: 76px 16px 24px;
 }
 .footer { margin-left: 0; }
 
+/* --- Topbar --- */
 .topbar { padding: 0 14px; height: 56px; gap: 8px; }
+.topbar-brand h1 { font-size: 15px; }
+.admin-name { font-size: 12px; }
 
+/* --- Section headers --- */
 .section-header {
 flex-direction: column;
 align-items: flex-start;
 gap: 10px;
 }
+.section-header h2 { font-size: 18px; }
 .section-header .btn-primary { width: 100%; text-align: center; }
 .overview-filters { width: 100%; }
+.section-sub { font-size: 12px; }
 
+/* --- Stats grid 2 columns --- */
 .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
 .stat-card { padding: 16px; }
+.stat-value { font-size: 24px; }
+.stat-label { font-size: 12px; }
 
+/* --- Tables: horizontal scroll wrapper --- */
+.tab-content { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .data-table { min-width: 600px; font-size: 13px; }
+.data-table th { font-size: 12px; padding: 10px 10px; }
+.data-table td { font-size: 13px; padding: 10px 10px; }
 .data-table .actions { flex-wrap: wrap; gap: 6px; }
 
+/* --- Scan layout --- */
 .scan-layout { grid-template-columns: 1fr; gap: 16px; }
 .scan-card { padding: 16px; }
 .scan-card h3 { font-size: 14px; }
@@ -475,6 +513,7 @@ gap: 10px;
 .scan-buttons { flex-wrap: wrap; gap: 8px; }
 #qr-reader { max-width: 100%; }
 
+/* --- Modal --- */
 .modal { padding: 0; align-items: flex-end; }
 .modal-content {
 max-width: 100%;
@@ -485,18 +524,26 @@ max-height: 85vh;
 .modal-content h3 { font-size: 18px; margin-bottom: 16px; }
 .form-group input,
 .form-group textarea,
-.form-group select { font-size: 16px; }
+.form-group select { font-size: 16px; /* prevent iOS zoom */ }
 .form-group label { font-size: 13px; }
 .form-group { margin-bottom: 14px; }
 
+/* --- Buttons --- */
 .btn-primary { padding: 12px 18px; font-size: 14px; }
 .btn-danger, .btn-success, .btn-edit { padding: 8px 12px; font-size: 12px; }
 .btn-logout { padding: 6px 12px; font-size: 13px; }
 
+/* --- Attendance breadcrumb --- */
 .attendance-crumb { flex-wrap: wrap; gap: 8px; }
+.attendance-crumb-path { font-size: 12px; }
+
+/* --- Attendance folder tip --- */
 .attendance-folder-tip { font-size: 12px; padding: 12px; }
+
+/* --- Empty state --- */
 .empty-state { padding: 24px; font-size: 13px; }
 
+/* --- Topbar disclaimer: visible, centered second row on mobile --- */
 .topbar { flex-wrap: wrap; height: auto; }
 .topbar-disclaimer {
 position: static;
@@ -512,10 +559,21 @@ padding: 7px 12px 9px;
 border-top: 1px solid var(--border);
 background: #fff;
 }
+.disclaimer-title { font-size: 13px; }
+.disclaimer-text { font-size: 12px; }
+.main-content { padding-top: 112px; }
+}
+
+@media screen and (max-width: 1200px) {
+body {
+zoom: 0.6;
+}
 }
 
 /* ---------- Small mobile (<= 480px) ---------- */
 @media (max-width: 480px) {
+
+/* --- Topbar --- */
 .topbar { flex-wrap: wrap; height: auto; padding: 0 12px; }
 .topbar-disclaimer {
 position: static;
@@ -531,27 +589,48 @@ padding: 6px 10px 8px;
 border-top: 1px solid var(--border);
 background: #fff;
 }
+.disclaimer-title { font-size: 12px; }
+.disclaimer-text { font-size: 11px; }
+.topbar-brand h1 { font-size: 13px; letter-spacing: -0.3px; }
 .topbar-actions { gap: 8px; }
 .admin-name { display: none; }
 
+/* --- Sidebar --- */
 .sidebar { width: 240px; }
-.main-content { padding: 16px 12px 64px; }
+.nav-btn { padding: 12px 20px; font-size: 14px; }
 
+/* --- Main content --- */
+.main-content { padding: 104px 12px 20px; }
+
+/* --- Section header --- */
+.section-header h2 { font-size: 16px; }
+
+/* --- Stats grid: single column on very small screens --- */
 .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
 .stat-card { padding: 14px 12px; }
+.stat-value { font-size: 22px; }
+.stat-label { font-size: 11px; }
 
+/* --- Tables --- */
 .data-table { min-width: 520px; }
+
+/* --- Modal --- */
 .modal-content {
 padding: 20px 14px;
 border-radius: 12px 12px 0 0;
 }
+
+/* --- Login (bonus for mobile login) --- */
 .login-card { padding: 28px 20px; border-radius: 16px; }
 .login-card h1 { font-size: 20px; }
+
+/* --- Scan card --- */
 .scan-card { padding: 14px; }
 .scan-tip { font-size: 11px; }
+
+/* --- Status badges --- */
 .status-badge { padding: 3px 8px; font-size: 11px; }
 }
-
 /* ---- Overview charts ---- */
 .chart-card { background: white; border-radius: 16px; box-shadow: var(--shadow); padding: 14px 18px; margin-top: 12px; }
 .chart-card-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
@@ -577,14 +656,95 @@ border-radius: 12px 12px 0 0;
 .perf-label { font-size: 13px; font-weight: 600; color: var(--text); }
 .perf-desc { display: block; font-style: normal; color: var(--muted); font-size: 11px; margin-top: 2px; line-height: 1.4; }
 .perf-value { font-size: 22px; font-weight: 700; color: var(--primary); white-space: nowrap; }
+@media (max-width: 900px) {
+.overview-daily-row { grid-template-columns: 1fr; }
+}
 
-/* ---- Overview tiles ---- */
+@media (max-width: 768px) {
+/* 1. Turn off full-height stretching on mobile so it flows naturally */
+.main-content {
+min-height: auto;
+padding: 70px 12px 20px 12px;
+display: block;
+}
+
+.tab-content.active {
+display: block;
+flex: none;
+}
+
+.charts-tiles {
+flex: none;
+}
+
+/* 2. Compact Stat Cards (2 columns, smaller text) */
+.stats-grid {
+grid-template-columns: repeat(2, 1fr);
+gap: 8px;
+margin-bottom: 10px;
+}
+
+.stat-card {
+padding: 12px;
+}
+
+.stat-value {
+font-size: 22px;
+}
+
+.stat-label {
+font-size: 11px;
+margin-top: 2px;
+}
+
+/* 3. Tighten Daily Row & Performance Cards */
+.overview-daily-row {
+grid-template-columns: 1fr;
+gap: 10px;
+margin-top: 10px;
+}
+
+.chart-card {
+padding: 12px 14px;
+margin-top: 0;
+}
+
+/* 4. Shrink Chart Heights so they take up less vertical space */
+.bar-chart {
+height: 120px !important;
+}
+
+.tile-bar-chart {
+height: 90px !important;
+}
+
+/* 5. Make Chart Tiles fit in a cleaner grid on tablets/large phones */
+.charts-tiles {
+grid-template-columns: repeat(2, 1fr);
+gap: 8px;
+margin-top: 10px;
+}
+
+.chart-tile {
+min-height: 170px;
+padding: 10px;
+}
+}
+
+/* For very small mobile phones */
+@media (max-width: 480px) {
+.charts-tiles {
+grid-template-columns: 1fr;
+}
+}
+
+/* ---- Overview tiles (pie + task charts) ---- */
 .charts-tiles {
 display: grid;
 grid-template-columns: repeat(5, minmax(0, 1fr));
 gap: 6px;
 margin-top: 10px;
-flex: 1;
+flex: 1; /* Forces the bottom row to stretch and fill the remaining height */
 }
 .chart-tile { background: white; border-radius: 16px; box-shadow: var(--shadow); padding: 12px; min-height: 200px; display: flex; flex-direction: column; }
 .chart-tile-header { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 6px; }
@@ -608,8 +768,14 @@ flex: 1;
 .legend-more { flex-basis: 100%; margin-top: 4px; padding: 3px 12px; border: 1px solid #e2e8f0; border-radius: 999px; background: #fff; color: var(--primary); font-size: 11px; cursor: pointer; }
 .legend-more:hover { background: #f1f5f9; }
 .tile-placeholder { align-items: center; justify-content: center; color: var(--muted); font-size: 22px; font-weight: 600; }
-
-/* ---- Tile bar charts ---- */
+@media (max-width: 900px) {
+.charts-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chart-tile { min-height: 220px; }
+}
+@media (max-width: 480px) {
+.charts-tiles { grid-template-columns: 1fr; }
+}
+/* ---- Tile bar charts (Institute + next) ---- */
 .chart-tile .tile-bars-wrap { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; min-height: 0; }
 .chart-tile .tile-bar-chart { height: 115px; gap: 2px; }
 .chart-tile .tile-bar-chart .bar { max-width: 16px; }
@@ -634,6 +800,8 @@ flex: 1;
 .hover-modal .hm-list { max-height: 40vh; overflow-y: auto; overflow-x: hidden; }
 .hover-modal .hm-name { padding: 3px 6px; border-radius: 6px; border-bottom: 1px solid #f1f2f6; }
 .hover-modal .hm-empty, .hover-modal .hm-loading { color: var(--muted); font-style: italic; padding: 4px; }
+
+
 
 /* ---- Students tab: search + pagination ---- */
 .search-input {
@@ -674,136 +842,3 @@ font-weight: 600;
 }
 .page-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .page-ellipsis { color: var(--muted); padding: 0 2px; }
-
-/* ============================================================
-RESPONSIVE — Overview charts & tiles
-(declared last so these override the base chart styles above)
-   ============================================================ */
-
-/* ---------- Netbook / narrow desktop (<= 1200px) ---------- */
-@media (max-width: 1200px) {
-.chart-card { padding: 12px 14px; }
-.bar-chart { height: 170px; }
-#dailyBarChart { height: 100px; }
-.chart-tile .tile-bar-chart { height: 100px; }
-.chart-empty { padding: 40px 0; }
-.charts-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.chart-tile { min-height: 190px; padding: 12px; }
-}
-
-/* ---------- Tablet (<= 1024px) ---------- */
-@media (max-width: 1024px) {
-.overview-daily-row { grid-template-columns: 1fr; }
-.charts-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.chart-tile { min-height: 210px; }
-}
-
-/* ---------- Mobile / tablet portrait (<= 768px) ---------- */
-@media (max-width: 768px) {
-.overview-daily-row { gap: 10px; margin-top: 10px; }
-.chart-card { padding: 12px 14px; margin-top: 0; }
-.bar-chart { height: 120px; }
-#dailyBarChart { height: 110px; }
-.chart-tile .tile-bar-chart { height: 90px; }
-.chart-empty { padding: 28px 0; }
-.charts-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; flex: none; }
-.chart-tile { min-height: 170px; padding: 10px; }
-.pie-chart { max-width: 120px; }
-.perf-item { padding: 10px 12px; }
-}
-
-/* ---------- Phone (<= 480px) ---------- */
-@media (max-width: 480px) {
-.bar-chart { height: 140px; }
-.chart-tile .tile-bar-chart { height: 110px; }
-.charts-tiles { grid-template-columns: 1fr; gap: 10px; }
-.chart-tile { min-height: 180px; padding: 12px; }
-.pie-chart { max-width: 150px; }
-}
-
-/* ---------- Short viewports: netbooks / landscape laptops (<= 720px tall) ---------- */
-@media (max-height: 720px) {
-.sidebar { overflow-y: auto; }
-.sidebar-attendees { margin-top: 16px; }
-.sidebar-attendees-list { max-height: 22vh; }
-.chart-card { padding: 10px 12px; }
-.bar-chart { height: 130px; }
-#dailyBarChart { height: 92px; }
-.chart-tile .tile-bar-chart { height: 80px; }
-.chart-empty { padding: 24px 0; }
-.chart-legend { margin-top: 10px; padding-top: 8px; }
-.chart-tile .chart-legend { margin-top: 8px; padding-top: 8px; }
-.charts-tiles { min-height: 150px; }
-.chart-tile { min-height: 150px; padding: 10px; }
-.overview-daily-row { gap: 10px; }
-.perf-item { padding: 7px 12px; }
-.stat-card { padding: 14px; }
-.footer { padding: 8px 16px 9px; }
-}
-
-/* ---------- Very short viewports: 1024x600 / small laptops (<= 620px tall) ---------- */
-@media (max-height: 620px) {
-.topbar { height: 48px; }
-.sidebar { top: 48px; }
-.main-content { min-height: calc(100vh - 48px); padding-bottom: 52px; }
-.bar-chart { height: 110px; }
-#dailyBarChart { height: 80px; }
-.chart-tile .tile-bar-chart { height: 68px; }
-.chart-tile { min-height: 132px; }
-.charts-tiles { min-height: 132px; }
-.chart-empty { padding: 18px 0; }
-.stat-card { padding: 11px 12px; }
-.chart-card { padding: 8px 10px; }
-.chart-card-header, .chart-tile-header { margin-bottom: 3px; }
-.perf-summary { gap: 6px; }
-}
-
-/* Wide + short only: topbar must stay single-row, so it may shrink safely. */
-@media (min-width: 769px) and (max-height: 720px) {
-.topbar { height: 52px; }
-.sidebar { top: 52px; }
-.main-content { min-height: calc(100vh - 52px); }
-}
-
-/* ============================================================
-FLUID SIZE SCALE — stepped down for viewports under 1200px
-The clamp values in the fluid block below already cap at the desktop size at 1200px, so
-this only trims small/medium screens. At 1200px and above --ui-k is 1
-(unchanged). Each step below shaves roughly 10% off every fluid size.
-   ============================================================ */
-@media (max-width: 1199px) { :root { --ui-k: 0.93; } }
-@media (max-width: 1100px) { :root { --ui-k: 0.88; } }
-@media (max-width: 1000px) { :root { --ui-k: 0.85; } }
-@media (max-width: 900px)  { :root { --ui-k: 0.84; } }
-@media (max-width: 700px)  { :root { --ui-k: 0.82; } }
-
-/* ============================================================
-FLUID TYPOGRAPHY — admin dashboard only
-Continuous scaling: equals the desktop size at 1200px, shrinks below.
-Declared last so it wins over the stepped width tiers above.
-   ============================================================ */
-.nav-btn { font-size: calc(clamp(12.4px, 10px + 0.8333vw, 20px) * var(--ui-k)); }
-.disclaimer-title { font-size: calc(clamp(12.4px, 10px + 0.8333vw, 20px) * var(--ui-k)); }
-.disclaimer-text { font-size: calc(clamp(10.54px, 8.5px + 0.7083vw, 17px) * var(--ui-k)); }
-.section-header h2 { font-size: calc(clamp(13.64px, 11px + 0.9167vw, 22px) * var(--ui-k)); }
-.topbar-brand h1 { font-size: calc(clamp(11.16px, 9px + 0.75vw, 18px) * var(--ui-k)); }
-.admin-name { font-size: calc(clamp(8.68px, 7px + 0.5833vw, 14px) * var(--ui-k)); }
-#tasksTable th { font-size: calc(clamp(12.4px, 10px + 0.8333vw, 20px) * var(--ui-k)); }
-#tasksTable td { font-size: calc(clamp(8.68px, 7px + 0.5833vw, 14px) * var(--ui-k)); }
-.data-table th { font-size: calc(clamp(8.06px, 6.5px + 0.5417vw, 13px) * var(--ui-k)); }
-.data-table td { font-size: calc(clamp(9.92px, 8px + 0.6667vw, 16px) * var(--ui-k)); }
-.stat-value { font-size: calc(clamp(19.84px, 16px + 1.3333vw, 32px) * var(--ui-k)); }
-.stat-label { font-size: calc(clamp(8.68px, 7px + 0.5833vw, 14px) * var(--ui-k)); }
-.section-sub { font-size: calc(clamp(8.06px, 6.5px + 0.5417vw, 13px) * var(--ui-k)); }
-.attendance-crumb-path { font-size: calc(clamp(8.06px, 6.5px + 0.5417vw, 13px) * var(--ui-k)); }
-.chart-card-header h3 { font-size: calc(clamp(9.3px, 7.5px + 0.625vw, 15px) * var(--ui-k)); }
-.chart-tile-header h3 { font-size: calc(clamp(7.44px, 6px + 0.5vw, 12px) * var(--ui-k)); }
-.chart-period { font-size: calc(clamp(7.44px, 6px + 0.5vw, 12px) * var(--ui-k)); }
-.legend-item { font-size: calc(clamp(7.44px, 6px + 0.5vw, 12px) * var(--ui-k)); }
-.perf-label { font-size: calc(clamp(8.06px, 6.5px + 0.5417vw, 13px) * var(--ui-k)); }
-.perf-desc { font-size: calc(clamp(6.82px, 5.5px + 0.4583vw, 11px) * var(--ui-k)); }
-.perf-value { font-size: calc(clamp(13.64px, 11px + 0.9167vw, 22px) * var(--ui-k)); }
-.bar-value { font-size: calc(clamp(6.82px, 5.5px + 0.4583vw, 11px) * var(--ui-k)); }
-.bar-label { font-size: calc(clamp(6.82px, 5.5px + 0.4583vw, 11px) * var(--ui-k)); }
-.footer { font-size: calc(clamp(8.06px, 6.5px + 0.5417vw, 13px) * var(--ui-k)); }
-.sidebar-attendees-list { font-size: calc(clamp(7.44px, 6px + 0.5vw, 12px) * var(--ui-k)); }
