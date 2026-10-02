@@ -4,7 +4,22 @@
 // calls refreshActiveTabData -> loadStudents) keeps the admin's current page
 // and search text instead of snapping back to the top.
 
-const STUDENTS_PER_PAGE = 10;
+// Responsive rows per page based on window height
+function calculateStudentsPerPage() {
+    try {
+        const tableContainer = document.querySelector('#studentsTable');
+        const rowHeight = 48;
+        const headerHeight = 120;
+        const viewportHeight = window.innerHeight;
+        const available = viewportHeight - headerHeight;
+        let rows = Math.floor(available / rowHeight);
+        if (rows < 5) rows = 5;
+        return rows;
+    } catch (e) {
+        return 10;
+    }
+}
+let STUDENTS_PER_PAGE = calculateStudentsPerPage();
 let allStudents = [];    // last API result, unfiltered
 let studentQuery = '';   // current search text
 let studentPage = 1;     // 1-based
@@ -96,8 +111,9 @@ function renderStudentsPage() {
     const pages = studentPageCount(filtered.length);
     if (studentPage > pages) studentPage = pages;
     if (studentPage < 1) studentPage = 1;
-    const start = (studentPage - 1) * STUDENTS_PER_PAGE;
-    const slice = filtered.slice(start, start + STUDENTS_PER_PAGE);
+    var perPage = STUDENTS_PER_PAGE;
+    var start = (studentPage - 1) * perPage;
+    var slice = filtered.slice(start, start + perPage);
     tbody.innerHTML = studentRows(slice);
     renderStudentsPager(filtered.length, filtered.length ? start + 1 : 0, start + slice.length);
 }
@@ -153,4 +169,13 @@ document.getElementById('studentsPager').addEventListener('click', (event) => {
     if (!btn || btn.disabled) return;
     const page = Number(btn.dataset.page);
     if (Number.isInteger(page)) changeStudentPage(page);
+});
+
+window.addEventListener('resize', function () {
+    var newPerPage = calculateStudentsPerPage();
+    if (newPerPage !== STUDENTS_PER_PAGE) {
+        STUDENTS_PER_PAGE = newPerPage;
+        studentPage = 1;
+        renderStudentsPage();
+    }
 });
